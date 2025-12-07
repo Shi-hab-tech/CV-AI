@@ -15,25 +15,28 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
-      - name: Create index.html if missing
+      - name: Check for required files
         run: |
           if [ ! -f index.html ]; then
+            echo "index.html not found! Creating basic version..."
             echo '<!DOCTYPE html>
-            <html lang="en">
+            <html>
             <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>CV AI Bot</title>
-              <link rel="stylesheet" href="style.css">
               <link rel="manifest" href="manifest.json">
             </head>
             <body>
               <h1>CV AI Bot</h1>
-              <p>Your AI-powered CV creation assistant</p>
-              <script src="script.js"></script>
-              <script src="sw.js"></script>
+              <p>Deployment successful!</p>
             </body>
             </html>' > index.html
+          fi
+          
+          if [ ! -f manifest.json ]; then
+            echo '{
+              "name": "CV AI Bot",
+              "start_url": "/"
+            }' > manifest.json
           fi
 
       - name: Upload artifact
